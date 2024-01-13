@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Authors</h2>
+<ul>
+    {% for author in authors %}
+        <li>
+            <!-- this URL is built manually -->
+            <a href="/authors/{{ author.id }}/">{{ author.first_name }} {{ author.last_name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<form action="{% url 'author-list' %}" method="post">
+    <input type="text" name="first_name"/>
+    <input type="text" name="last_name"/>
+    <input type="submit" value="Add Author"/>
+</form>
+</body>
+</html>
