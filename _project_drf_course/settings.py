@@ -24,7 +24,8 @@ SECRET_KEY = "django-insecure-(2_yf@k$4wzs2r(+6vgd__0uk(s1r^f4)hwp0@=qslicxlvy$+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
 INTERNAL_IPS = [
     # ...
     "127.0.0.1",
@@ -47,13 +48,22 @@ INSTALLED_APPS = [
     'bookreview.apps.BookreviewConfig',
     'members.apps.MembersConfig',
     'polls.apps.PollsConfig',
-    'todo.apps.TodoConfig'
+    'todo.apps.TodoConfig',
+    'corsheaders',
+    "whitenoise.runserver_nostatic",
 
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ]
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -81,6 +91,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "_project_drf_course.wsgi.application"
+
+CORS_ALLOWED_ORIGINS = (
+    "http://localhost:3000",
+    "http://localhost:8000",
+)
+CORS_ALLOW_CREDENTIALS = True
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -136,10 +152,11 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 MEDIA_URL = "media/"
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_ROOT = [BASE_DIR / "media"]
 
 # Default primary key field type
